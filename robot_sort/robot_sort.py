@@ -99,6 +99,8 @@ class SortingRobot:
         Sort the robot's list.
         """
         # Fill this out
+
+        # implementing Insertion Sort
         # if list is too small to sort
         if self.can_move_right() == False:
             return
