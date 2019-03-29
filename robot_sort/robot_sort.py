@@ -102,6 +102,8 @@ class SortingRobot:
         # if list is too small to sort
         if self.can_move_right() == False:
             return
+
+        # use light on until we reach the end of the list
         self.set_light_on()
         # move to 2nd item pick it up
         self.move_right()
@@ -113,19 +115,23 @@ class SortingRobot:
                 self.move_left()
 
             # go through list and swap item with anything larger than it
+            # stop at None, index of our last selection to insert
             while self.compare_item() != None:
+                # if item im holding is smaller thna item i compare, swap them!
                 if self.compare_item() == -1:
                     self.swap_item()
                 self.move_right()
 
+            # swap held item with 'None' move to right and repeat process again
             self.swap_item()
             if self.can_move_right():
                 self.move_right()
                 self.swap_item()
             else:
-                # end loop
+                # cant move right -> finished sorting
                 self.set_light_off()
 
+    # below - first attempt - using bubble-sort - infinite loops
     # well bubble sort fails in these rules....
     # # the light is a damn hidden boolean to use.
     # # therefore i can use bubble sort
@@ -152,11 +158,6 @@ class SortingRobot:
     #         self.swap_item()
     #     # now we are back at beginning of list with None in hand
 
-
-# myBot = SortingRobot([9, 8, 7, 3, 113, 4, 3, 6, 0, 234, 52, 1, 3])
-# print(myBot._list)
-# myBot.sort()
-# print(myBot._list)
 
 if __name__ == "__main__":
     # Test our your implementation from the command line
