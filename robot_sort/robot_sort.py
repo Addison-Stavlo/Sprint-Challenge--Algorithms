@@ -81,11 +81,13 @@ class SortingRobot:
         Turn on the robot's light
         """
         self._light = "ON"
+
     def set_light_off(self):
         """
         Turn off the robot's light
         """
         self._light = "OFF"
+
     def light_is_on(self):
         """
         Returns True if the robot's light is on and False otherwise.
@@ -97,14 +99,74 @@ class SortingRobot:
         Sort the robot's list.
         """
         # Fill this out
-        pass
+
+        # implementing Insertion Sort
+        # if list is too small to sort
+        if self.can_move_right() == False:
+            return
+
+        # use light on until we reach the end of the list
+        self.set_light_on()
+        # move to 2nd item pick it up
+        self.move_right()
+        self.swap_item()
+
+        while self.light_is_on():
+            # goto beginning of list
+            while self.can_move_left():
+                self.move_left()
+
+            # go through list and swap item with anything larger than it
+            # stop at None, index of our last selection to insert
+            while self.compare_item() != None:
+                # if item im holding is smaller thna item i compare, swap them!
+                if self.compare_item() == -1:
+                    self.swap_item()
+                self.move_right()
+
+            # swap held item with 'None' move to right and repeat process again
+            self.swap_item()
+            if self.can_move_right():
+                self.move_right()
+                self.swap_item()
+            else:
+                # cant move right -> finished sorting
+                self.set_light_off()
+
+    # below - first attempt - using bubble-sort - infinite loops
+    # well bubble sort fails in these rules....
+    # # the light is a damn hidden boolean to use.
+    # # therefore i can use bubble sort
+
+    # # light on = madeSwap = true
+    # self.set_light_on()
+
+    # while self.light_is_on():
+    #     self.set_light_off()
+    #     # pick up first item (it is now None)
+    #     self.swap_item()
+
+    #     while self.can_move_right():
+    #         self.move_right()
+    #         # swap if item found is larger than held
+    #         if self.compare_item() == -1:
+    #             self.swap_item()
+    #             # trigger boolean back on, must do another pass if we swap
+    #             self.set_light_on()
+    #     # now at end of the list, swap items all the way back to beginning
+    #     self.swap_item()
+    #     while self.can_move_left():
+    #         self.move_left()
+    #         self.swap_item()
+    #     # now we are back at beginning of list with None in hand
 
 
 if __name__ == "__main__":
     # Test our your implementation from the command line
     # with `python robot_sort.py`
 
-    l = [15, 41, 58, 49, 26, 4, 28, 8, 61, 60, 65, 21, 78, 14, 35, 90, 54, 5, 0, 87, 82, 96, 43, 92, 62, 97, 69, 94, 99, 93, 76, 47, 2, 88, 51, 40, 95, 6, 23, 81, 30, 19, 25, 91, 18, 68, 71, 9, 66, 1, 45, 33, 3, 72, 16, 85, 27, 59, 64, 39, 32, 24, 38, 84, 44, 80, 11, 73, 42, 20, 10, 29, 22, 98, 17, 48, 52, 67, 53, 74, 77, 37, 63, 31, 7, 75, 36, 89, 70, 34, 79, 83, 13, 57, 86, 12, 56, 50, 55, 46]
+    l = [15, 41, 58, 49, 26, 4, 28, 8, 61, 60, 65, 21, 78, 14, 35, 90, 54, 5, 0, 87, 82, 96, 43, 92, 62, 97, 69, 94, 99, 93, 76, 47, 2, 88, 51, 40, 95, 6, 23, 81, 30, 19, 25, 91, 18, 68, 71, 9, 66, 1,
+         45, 33, 3, 72, 16, 85, 27, 59, 64, 39, 32, 24, 38, 84, 44, 80, 11, 73, 42, 20, 10, 29, 22, 98, 17, 48, 52, 67, 53, 74, 77, 37, 63, 31, 7, 75, 36, 89, 70, 34, 79, 83, 13, 57, 86, 12, 56, 50, 55, 46]
 
     robot = SortingRobot(l)
 
